@@ -14,13 +14,21 @@ function init() -- basically love.load but reusable for resetting after timer ru
 
   score = 0
   timer = 15*60
+  rTimer = 2*60
 
   gameStarted = false
+  allowReset = false
 end
 
 function love.update(dt) -- timer tick tock tick tock ^^
   if timer > 0 and gameStarted then
     timer = timer - 1
+  end
+  if timer == 0 and gameStarted then 
+    rTimer = rTimer - 1
+  end
+  if rTimer == 0 and gameStarted then
+    allowReset = true
   end
 end
 
@@ -80,7 +88,7 @@ function love.mousepressed(x, y, button, istouch, presses) -- thats a lot of var
         love.audio.play(clickSound)
       end
     end
-    if timer == 0 then
+    if timer == 0 and allowReset then
       init()
     end
   end 
